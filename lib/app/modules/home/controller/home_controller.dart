@@ -3,10 +3,10 @@ import '../../../data/model/anime.dart';
 import '../../../service/api_service.dart';
 
 class HomeController extends GetxController {
-  final ApiService _apiService = ApiService();
+  final ApiService apiService = ApiService();
 
-  final isLoading = false.obs;
-  final animeList = <Anime>[].obs;
+  var isLoading = false.obs;
+  var animeList = <Anime>[].obs;
 
   @override
   void onInit() {
@@ -17,10 +17,10 @@ class HomeController extends GetxController {
   Future<void> fetchTopAnime() async {
     try {
       isLoading.value = true;
-      final response = await _apiService.getTopAnime();
-      animeList.assignAll(response.data);
-    } catch (_) {
-      Get.snackbar('Error', 'Failed to load anime');
+      final result = await apiService.getTopAnime();
+      animeList.assignAll(result.data);
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
     } finally {
       isLoading.value = false;
     }
